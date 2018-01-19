@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="itemViewModel"
+                type="com.blackbelt.recyclerviewbindingsexample.viewmodel.ItemViewModel" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:text="@{itemViewModel.name}"
+            android:gravity="center"
+            android:padding="@dimen/margin_16"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+</layout>

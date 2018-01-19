@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RecyclerViewBindingsExample</string>
+    <string name="item_generation_complete">Items Generated</string>
+</resources>
