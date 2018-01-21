@@ -12,7 +12,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val mHasPendingChanges = AtomicBoolean()
 
-    private val mHandler = Handler()
+    private val mHandler = Handler(Looper.getMainLooper())
 
     override fun observe(owner: LifecycleOwner, observer: Observer<T>) {
 
