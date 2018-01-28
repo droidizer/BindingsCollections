@@ -9,15 +9,15 @@ import android.support.v7.widget.RecyclerView
 private val KEY_ITEMS = -1024
 
 @BindingAdapter("itemViewBinder")
-fun <T> setItemViewBinder(recyclerView: RecyclerView,
-                          itemViewMapper: Map<Class<*>, AndroidItemBinder>) {
-    setItemViewBinder<Any>(recyclerView, itemViewMapper, true)
+fun   setItemViewBinder(recyclerView: RecyclerView,
+                        itemViewMapper: Map<Class<*>, AndroidItemBinder>) {
+    setItemViewBinder(recyclerView, itemViewMapper, true)
 }
 
 @BindingAdapter("itemViewBinder", "nestedScrollingEnabled")
-fun <T> setItemViewBinder(recyclerView: RecyclerView, itemViewMapper: Map<Class<*>, AndroidItemBinder>,
-                          nestedScrollingEnabled: Boolean) {
-    val items = recyclerView.getTag(KEY_ITEMS) as List<Any>
+fun setItemViewBinder(recyclerView: RecyclerView, itemViewMapper: Map<Class<*>, AndroidItemBinder>,
+                      nestedScrollingEnabled: Boolean) {
+    val items = recyclerView.getTag(KEY_ITEMS) as List<Any>?
     if (recyclerView.adapter is AndroidBindableRecyclerViewAdapter) {
         (recyclerView.adapter as AndroidBindableRecyclerViewAdapter).setDataSet(items)
         return
