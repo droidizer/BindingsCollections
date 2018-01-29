@@ -3,10 +3,13 @@ package com.blackbelt.bindings.recyclerviewbindings
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SnapHelper
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
+
+
 
 
 class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs), RecyclerView.OnItemTouchListener {
@@ -14,6 +17,8 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
     private var mRecyclerViewGestureListener: RecyclerViewGestureListener? = null
 
     private var mPageScrollListener: PageScrollListener? = null
+
+    private var mSnapHelper: SnapHelper? = null
 
     var pageDescriptor: PageDescriptor? = null
         set(pageDescriptor) {
@@ -116,5 +121,13 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
         if (mPageScrollListener != null) {
             mPageScrollListener!!.setOnPageChangeListener(pageChangeListener)
         }
+    }
+
+    fun setSnapHelper(snapHelper: SnapHelper) {
+        if (mSnapHelper != null) {
+            mSnapHelper?.attachToRecyclerView(null)
+        }
+        mSnapHelper = snapHelper
+        mSnapHelper?.attachToRecyclerView(this)
     }
 }

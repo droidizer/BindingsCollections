@@ -4,13 +4,14 @@ import android.databinding.BindingAdapter
 import android.databinding.InverseBindingAdapter
 import android.databinding.InverseBindingListener
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SnapHelper
 
 
 private val KEY_ITEMS = -1024
 
 @BindingAdapter("itemViewBinder")
-fun   setItemViewBinder(recyclerView: RecyclerView,
-                        itemViewMapper: Map<Class<*>, AndroidItemBinder>) {
+fun setItemViewBinder(recyclerView: RecyclerView,
+                      itemViewMapper: Map<Class<*>, AndroidItemBinder>) {
     setItemViewBinder(recyclerView, itemViewMapper, true)
 }
 
@@ -80,4 +81,9 @@ fun setPageDescriptor(recyclerView: AndroidBindableRecyclerView, pageDescriptor:
 @InverseBindingAdapter(attribute = "pageDescriptor")
 fun getPageDescriptor(recyclerView: AndroidBindableRecyclerView): PageDescriptor? {
     return recyclerView.pageDescriptor
+}
+
+@BindingAdapter("snapHelper")
+fun setSnapHelper(recyclerView: AndroidBindableRecyclerView, snapHelper: SnapHelper) {
+    recyclerView.setSnapHelper(snapHelper)
 }
