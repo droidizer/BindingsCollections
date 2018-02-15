@@ -81,7 +81,7 @@ class AndroidBindableRecyclerViewAdapter internal constructor(private val mItemB
     override fun getItemViewType(position: Int): Int {
         val key = dataSet[position].javaClass
         val dataBinder: AndroidItemBinder = mItemBinder[key]
-                ?: throw Exception("AndroidDataBinder not configured correctly")
+                ?: throw Exception("AndroidDataBinder not configured correctly $key")
         return dataBinder.layoutId
     }
 

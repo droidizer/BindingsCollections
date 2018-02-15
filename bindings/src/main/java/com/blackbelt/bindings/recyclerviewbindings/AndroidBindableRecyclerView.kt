@@ -10,8 +10,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 
 
-
-
 class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs), RecyclerView.OnItemTouchListener {
 
     private var mRecyclerViewGestureListener: RecyclerViewGestureListener? = null
@@ -51,17 +49,15 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
         }
 
         override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-            if (recyclerView!!.adapter == null) {
-                return
-            }
-            val layoutManager = recyclerView.layoutManager
+            val pageDescriptor: PageDescriptor = mPageDescriptor ?: return
+            val layoutManager: LayoutManager = recyclerView?.layoutManager ?: return
             val totalItemCount = layoutManager.itemCount
             val lastVisibleItem = getLastVisibleItemPosition(layoutManager)
-            if (totalItemCount - lastVisibleItem <= mPageDescriptor!!.getThreshold()) {
-                if (mPageDescriptor.getCurrentPage() < 1 + totalItemCount / mPageDescriptor.getPageSize()) {
-                    mPageDescriptor.setCurrentPage(1 + totalItemCount / mPageDescriptor.getPageSize())
+            if (totalItemCount - lastVisibleItem <= pageDescriptor.getThreshold()) {
+                if (pageDescriptor.getCurrentPage() < 1 + totalItemCount / pageDescriptor.getPageSize()) {
+                    pageDescriptor.setCurrentPage(1 + totalItemCount / pageDescriptor.getPageSize())
                     if (mOnPageChangeListener != null) {
-                        mOnPageChangeListener!!.onPageChangeListener(mPageDescriptor)
+                        mOnPageChangeListener?.onPageChangeListener(pageDescriptor)
                     }
                 }
             }
@@ -83,7 +79,7 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
         internal fun setOnPageChangeListener(onPageChangeListener: OnPageChangeListener) {
             mOnPageChangeListener = onPageChangeListener
             if (mPageDescriptor != null && mOnPageChangeListener != null) {
-                mOnPageChangeListener!!.onPageChangeListener(mPageDescriptor)
+                mOnPageChangeListener?.onPageChangeListener(mPageDescriptor)
             }
         }
     }
