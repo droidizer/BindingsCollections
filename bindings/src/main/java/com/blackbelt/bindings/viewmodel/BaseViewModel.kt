@@ -11,51 +11,29 @@ import com.blackbelt.bindings.notifications.MessageWrapper
 import com.blackbelt.bindings.utils.SingleLiveEvent
 
 
-
-
 open class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
 
-    @Transient
-    private var mCallbacks: PropertyChangeRegistry? = null
+    @delegate:Transient
+    private val mCallbacks: PropertyChangeRegistry by lazy { PropertyChangeRegistry() }
 
     protected val mMessageNotifier = SingleLiveEvent<MessageWrapper>()
 
     protected var mItemClickNotifier: SingleLiveEvent<ClickItemWrapper> = SingleLiveEvent()
 
     override fun removeOnPropertyChangedCallback(p0: Observable.OnPropertyChangedCallback?) {
-        synchronized(this) {
-            if (mCallbacks == null) {
-                mCallbacks = PropertyChangeRegistry()
-            }
-        }
-        mCallbacks?.remove(p0)
+        mCallbacks.remove(p0)
     }
 
     override fun addOnPropertyChangedCallback(p0: Observable.OnPropertyChangedCallback?) {
-        synchronized(this) {
-            if (mCallbacks == null) {
-                mCallbacks = PropertyChangeRegistry()
-            }
-        }
-        mCallbacks?.add(p0)
+        mCallbacks.add(p0)
     }
 
     fun notifyChange() {
-        synchronized(this) {
-            if (mCallbacks == null) {
-                return
-            }
-        }
-        mCallbacks?.notifyCallbacks(this, 0, null)
+        mCallbacks.notifyCallbacks(this, 0, null)
     }
 
     fun notifyPropertyChanged(fieldId: Int) {
-        synchronized(this) {
-            if (mCallbacks == null) {
-                return
-            }
-        }
-        mCallbacks?.notifyCallbacks(this, fieldId, null)
+        mCallbacks.notifyCallbacks(this, fieldId, null)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
