@@ -41,7 +41,7 @@ class MessageWrapper private constructor() {
     val negativeOnClickListener: DialogInterface.OnClickListener?
         get() = mNegativeOnClickListener
 
-    @IntDef(LENGTH_INDEFINITE.toLong(), LENGTH_SHORT.toLong(), LENGTH_LONG.toLong())
+    @IntDef(LENGTH_INDEFINITE, LENGTH_SHORT, LENGTH_LONG)
     @Retention(RetentionPolicy.SOURCE)
     annotation class Duration
 
