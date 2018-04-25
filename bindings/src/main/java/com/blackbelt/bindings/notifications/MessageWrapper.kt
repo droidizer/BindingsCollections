@@ -15,9 +15,17 @@ class MessageWrapper private constructor() {
     var messageId = -1
         private set
 
-    private var mPositiveButtonId = -1
+    var positiveButtonId = -1
+        private set
 
-    private var mNegativeButtonId = -1
+    var negativeButtonId = -1
+        private set
+
+    var positiveButton: String? = null
+        private set
+
+    var pegativeButton: String? = null
+        private set
 
     var title: String? = null
         private set
@@ -29,6 +37,9 @@ class MessageWrapper private constructor() {
         private set
 
     var duration: Int = 0
+        private set
+
+    var dialogStyleId: Int = 0
         private set
 
     private var mPositiveOnClickListener: DialogInterface.OnClickListener? = null
@@ -92,14 +103,17 @@ class MessageWrapper private constructor() {
             return messageWrapper
         }
 
-        fun withDialog(titleId: Int, messageId: Int, positiveButtonId: Int = 0, negativeButtonId: Int = 0,
+        fun withDialog(titleId: Int, messageId: Int,
+                       dialogStyle : Int = 0,
+                       positiveButtonId: Int = 0, negativeButtonId: Int = 0,
                        positiveOnClickListener: DialogInterface.OnClickListener? = null,
                        negativeOnClickListener: DialogInterface.OnClickListener? = null): MessageWrapper {
             val messageWrapper = MessageWrapper()
             messageWrapper.titleId = titleId
             messageWrapper.messageId = messageId
-            messageWrapper.mPositiveButtonId = positiveButtonId
-            messageWrapper.mNegativeButtonId = negativeButtonId
+            messageWrapper.dialogStyleId = dialogStyle
+            messageWrapper.positiveButtonId = positiveButtonId
+            messageWrapper.negativeButtonId = negativeButtonId
             messageWrapper.type = Type.DIALOG
             messageWrapper.mPositiveOnClickListener = positiveOnClickListener
             messageWrapper.mNegativeOnClickListener = negativeOnClickListener
