@@ -87,7 +87,7 @@ class MessageWrapper private constructor() {
             return messageWrapper
         }
 
-        fun withSnackBar(message: String, @Duration duration: Int = LENGTH_SHORT): MessageWrapper {
+        fun withSnackBar(message: String?, @Duration duration: Int = LENGTH_SHORT): MessageWrapper {
             val messageWrapper = MessageWrapper()
             messageWrapper.message = message
             messageWrapper.type = Type.SNACKBAR

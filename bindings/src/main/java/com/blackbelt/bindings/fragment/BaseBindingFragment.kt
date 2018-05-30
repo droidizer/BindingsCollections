@@ -20,6 +20,8 @@ abstract class BaseBindingFragment : Fragment() {
 
     protected var mViewModel: BaseViewModel? = null
 
+    private var mDataBinding: ViewDataBinding? = null
+
     private val mMessageDelegate: MessageDelegate by lazy {
         ViewModelProviders.of(this).get(MessageDelegate::class.java)
     }
@@ -39,14 +41,13 @@ abstract class BaseBindingFragment : Fragment() {
 
         mViewModel = androidBaseViewModel
 
-        lifecycle.addObserver(androidBaseViewModel)
-
         mViewModel?.getMessageDelegate()?.observe(this, Observer { t -> mMessageDelegate.showMessage(t) })
         mViewModel?.getItemClickDelegate()?.observe(this, Observer { t -> this.handleClick(t) })
 
-        val dataBiding: ViewDataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        dataBiding.setVariable(bindingVariable, mViewModel)
-        return dataBiding.root
+        mDataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
+        mDataBinding?.setVariable(bindingVariable, mViewModel)
+        mDataBinding?.setLifecycleOwner(this)
+        return mDataBinding?.root
     }
 
     private fun handleClick(item: ClickItemWrapper?) {
@@ -58,8 +59,8 @@ abstract class BaseBindingFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mViewModel?.let {
-            lifecycle.removeObserver(mViewModel as BaseViewModel)
+        mDataBinding?.let {
+            it.setLifecycleOwner(null)
         }
     }
 }

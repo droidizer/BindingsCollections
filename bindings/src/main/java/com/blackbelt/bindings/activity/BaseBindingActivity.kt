@@ -19,6 +19,8 @@ abstract class BaseBindingActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(MessageDelegate::class.java)
     }
 
+    private var mDataBinding: ViewDataBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mMessageDelegate.setActivity(this)
@@ -26,14 +28,13 @@ abstract class BaseBindingActivity : AppCompatActivity() {
 
     fun setContentView(@LayoutRes layoutId: Int, brVariable: Int, viewModel: BaseViewModel) {
         mViewModel = viewModel
-        lifecycle.addObserver(viewModel)
-
         mViewModel?.getMessageDelegate()?.observe(this, Observer { t -> mMessageDelegate.showMessage(t) })
         mViewModel?.getItemClickDelegate()?.observe(this, Observer { t -> this.handleClick(t) })
 
-        val dataBiding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, layoutId, null, false)
-        dataBiding.setVariable(brVariable, viewModel)
-        super.setContentView(dataBiding.root)
+        mDataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, null, false)
+        mDataBinding?.setVariable(brVariable, viewModel)
+        mDataBinding?.setLifecycleOwner(this)
+        super.setContentView(mDataBinding?.root)
     }
 
     private fun handleClick(item: ClickItemWrapper?) {
@@ -45,8 +46,8 @@ abstract class BaseBindingActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mViewModel?.let {
-            lifecycle.removeObserver(mViewModel as BaseViewModel)
+        mDataBinding?.let {
+            it.setLifecycleOwner(null)
         }
     }
 }

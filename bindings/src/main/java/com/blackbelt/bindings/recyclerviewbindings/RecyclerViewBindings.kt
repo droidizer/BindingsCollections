@@ -35,7 +35,7 @@ fun setNestedScrollingEnabled(recyclerView: RecyclerView, nestedScrollingEnabled
 }
 
 @BindingAdapter("items")
-fun <T> setItems(recyclerView: RecyclerView, items: List<Any>) {
+fun setItems(recyclerView: RecyclerView, items: List<Any>?) {
     recyclerView.setTag(KEY_ITEMS, items)
     if (recyclerView.adapter is AndroidBindableRecyclerViewAdapter) {
         (recyclerView.adapter as AndroidBindableRecyclerViewAdapter).setDataSet(items)
@@ -43,7 +43,7 @@ fun <T> setItems(recyclerView: RecyclerView, items: List<Any>) {
 }
 
 @BindingAdapter("onItemClickListener")
-fun setOnItemClickListener(recyclerView: RecyclerView, clickListener: ItemClickListener) {
+fun setOnItemClickListener(recyclerView: RecyclerView, clickListener: ItemClickListener?) {
     (recyclerView as? AndroidBindableRecyclerView)?.setOnItemClickListener(clickListener)
 }
 
@@ -51,13 +51,14 @@ fun setOnItemClickListener(recyclerView: RecyclerView, clickListener: ItemClickL
 fun <T> setLayoutManager(recyclerView: RecyclerView,
                          layoutManager: LayoutManagers.LayoutManagerFactory) {
     val manager = layoutManager.create(recyclerView)
-    manager.isAutoMeasureEnabled = true
     recyclerView.layoutManager = manager
 }
 
 @BindingAdapter("itemDecoration")
-fun addDividerItemDecoration(recyclerView: RecyclerView, itemDecoration: RecyclerView.ItemDecoration) {
-    recyclerView.addItemDecoration(itemDecoration)
+fun addDividerItemDecoration(recyclerView: RecyclerView, itemDecoration: RecyclerView.ItemDecoration?) {
+    itemDecoration?.let {
+        recyclerView.addItemDecoration(it)
+    }
 }
 
 @BindingAdapter(value = "pageDescriptorAttrChanged")
@@ -72,7 +73,7 @@ fun setListener(recyclerView: AndroidBindableRecyclerView, listener: InverseBind
 }
 
 @BindingAdapter("pageDescriptor")
-fun setPageDescriptor(recyclerView: AndroidBindableRecyclerView, pageDescriptor: PageDescriptor) {
+fun setPageDescriptor(recyclerView: AndroidBindableRecyclerView, pageDescriptor: PageDescriptor?) {
     if (recyclerView.pageDescriptor != pageDescriptor) {
         recyclerView.pageDescriptor = pageDescriptor
     }

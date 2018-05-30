@@ -1,9 +1,9 @@
 package com.blackbelt.recyclerviewbindingsexample.viewmodel
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.res.Resources
-import android.databinding.Bindable
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -17,7 +17,7 @@ import com.blackbelt.recyclerviewbindingsexample.R
 
 class MainViewModel(resources: Resources) : BaseViewModel() {
 
-    private val mItems: MutableList<ItemViewModel> = mutableListOf()
+    val items: MutableLiveData<MutableList<ItemViewModel>> = MutableLiveData()
 
     val binders: Map<Class<*>, AndroidItemBinder> =
             hashMapOf(ItemViewModel::class.java to AndroidItemBinder(R.layout.item_layout, BR.itemViewModel))
@@ -37,18 +37,15 @@ class MainViewModel(resources: Resources) : BaseViewModel() {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
+    init {
+        val items = mutableListOf<ItemViewModel>()
         for (i in 1..100) {
-            mItems.add(ItemViewModel(i.toString()))
+            items.add(ItemViewModel(i.toString()))
         }
+        this.items.postValue(items)
         mMessageNotifier.value = MessageWrapper.withSnackBar(R.string.item_generation_complete)
     }
 
-    @Bindable
-    fun getItems() = mItems
-
-    @Bindable
     fun getItemDecoration(): RecyclerView.ItemDecoration = mItemDecoration
 
     fun getItemClickListener() = object : ItemClickListener {
