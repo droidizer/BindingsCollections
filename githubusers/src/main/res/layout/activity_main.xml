@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="usersViewModel"
+            type="com.bblackbelt.githubusers.view.users.viewmodel.UsersViewModel" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.blackbelt.bindings.paging.PagedBindableRecyclerView
+            android:id="@+id/list"
+            objectTemplates="@{usersViewModel.templates}"
+            submitList="@{usersViewModel.users}"
+            onItemClickListener="@{usersViewModel.itemClick}"
+            itemDecoration="@{usersViewModel.itemDecoration}"
+            networkState="@{usersViewModel.networkState}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".view.MainActivity" />
+    </FrameLayout>
+
+</layout>

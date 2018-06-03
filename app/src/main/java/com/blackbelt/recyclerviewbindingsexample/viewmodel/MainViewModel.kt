@@ -51,8 +51,9 @@ class MainViewModel(resources: Resources) : BaseViewModel() {
     fun getItemClickListener() = object : ItemClickListener {
         override fun onItemClicked(view: View, item: Any) {
             val listItem = item as? ItemViewModel ?: return
-            mMessageNotifier.value = MessageWrapper.withSnackBar(listItem.name)
-            mItemClickNotifier.value = ClickItemWrapper.withAdditionalData(0, listItem.name)
+            mMessageNotifier.value = MessageWrapper.withSnackBar(listItem.name.value)
+            mItemClickNotifier.value = ClickItemWrapper.withAdditionalData(0, listItem.name.value)
+            item.setName("test${item.name}")
         }
     }
 

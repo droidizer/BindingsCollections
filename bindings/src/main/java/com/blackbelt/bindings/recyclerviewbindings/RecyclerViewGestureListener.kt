@@ -8,15 +8,16 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import com.blackbelt.bindings.BaseBindableRecyclerView
 import java.lang.ref.WeakReference
 
-open class RecyclerViewGestureListener(bindableRecyclerView: AndroidBindableRecyclerView) : GestureDetector.SimpleOnGestureListener() {
+open class RecyclerViewGestureListener(bindableRecyclerView: BaseBindableRecyclerView) : GestureDetector.SimpleOnGestureListener() {
 
-    private var mRecyclerView: WeakReference<AndroidBindableRecyclerView>? = null
+    private var mRecyclerView: WeakReference<BaseBindableRecyclerView>? = null
 
     private var mRecyclerViewClickListener: ItemClickListener? = null
 
-    private val recyclerView: AndroidBindableRecyclerView?
+    private val recyclerView: BaseBindableRecyclerView?
         get() = if (mRecyclerView == null) {
             null
         } else mRecyclerView!!.get()
@@ -45,13 +46,13 @@ open class RecyclerViewGestureListener(bindableRecyclerView: AndroidBindableRecy
             return true
         }
 
-        if (recyclerView.dataSet == null) {
+        if (recyclerView.getDataSet() == null) {
             // Adapter is not BindableRecyclerViewAdapter or setItemSource hasn't been called
             return true
         }
 
         val listener = mRecyclerViewClickListener ?: return false
-        val dataSet: List<Any>? = recyclerView.dataSet ?: return false
+        val dataSet: List<Any>? = recyclerView.getDataSet() ?: return false
         val clickedObject: Any = dataSet?.get(position) ?: return false
         listener.onItemClicked(childView, clickedObject)
         return true

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/BindingsCollections.iml" filepath="$PROJECT_DIR$/BindingsCollections.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bindings/bindings.iml" filepath="$PROJECT_DIR$/bindings/bindings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/githubusers/githubusers.iml" filepath="$PROJECT_DIR$/githubusers/githubusers.iml" />
     </modules>
   </component>
 </project>

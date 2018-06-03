@@ -5,6 +5,7 @@ import android.databinding.InverseBindingAdapter
 import android.databinding.InverseBindingListener
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
+import com.blackbelt.bindings.BaseBindableRecyclerView
 
 
 private val KEY_ITEMS = -1024
@@ -43,8 +44,8 @@ fun setItems(recyclerView: RecyclerView, items: List<Any>?) {
 }
 
 @BindingAdapter("onItemClickListener")
-fun setOnItemClickListener(recyclerView: RecyclerView, clickListener: ItemClickListener?) {
-    (recyclerView as? AndroidBindableRecyclerView)?.setOnItemClickListener(clickListener)
+fun setOnItemClickListener(recyclerView: BaseBindableRecyclerView, clickListener: ItemClickListener?) {
+    recyclerView.setOnItemClickListener(clickListener)
 }
 
 @BindingAdapter("layoutManager")

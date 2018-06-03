@@ -1,6 +1,7 @@
 package com.blackbelt.bindings.recyclerviewbindings
 
 import android.content.Context
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
@@ -8,15 +9,12 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
+import com.blackbelt.bindings.BaseBindableRecyclerView
 
 
-class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs), RecyclerView.OnItemTouchListener {
-
-    private var mRecyclerViewGestureListener: RecyclerViewGestureListener? = null
+class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : BaseBindableRecyclerView(context, attrs) {
 
     private var mPageScrollListener: PageScrollListener? = null
-
-    private var mSnapHelper: SnapHelper? = null
 
     var pageDescriptor: PageDescriptor? = null
         set(pageDescriptor) {
@@ -29,14 +27,6 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
         }
 
     private var mOnPageChangeListener: OnPageChangeListener? = null
-
-    private var mGestureDetector: GestureDetector? = null
-
-    val dataSet: List<Any>?
-        get() = if (adapter is AndroidBindableRecyclerViewAdapter) {
-            (adapter as AndroidBindableRecyclerViewAdapter).dataSet
-        } else null
-
 
     private inner class PageScrollListener internal constructor(private val mPageDescriptor: PageDescriptor?) : RecyclerView.OnScrollListener() {
 
@@ -84,34 +74,6 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
         }
     }
 
-    fun setOnItemClickListener(l: ItemClickListener?) {
-        if (l == null) {
-            return
-        }
-        mRecyclerViewGestureListener = RecyclerViewGestureListener(this)
-        mGestureDetector = GestureDetector(context, mRecyclerViewGestureListener)
-        mRecyclerViewGestureListener!!.setRecyclerViewClickListener(l)
-    }
-
-    override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-        return mGestureDetector != null && mGestureDetector!!.onTouchEvent(e)
-    }
-
-    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-
-    override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        addOnItemTouchListener(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        removeOnItemTouchListener(this)
-    }
-
-
     fun setOnPageChangeListener(pageChangeListener: OnPageChangeListener) {
         mOnPageChangeListener = pageChangeListener
         if (mPageScrollListener != null) {
@@ -119,11 +81,6 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Recy
         }
     }
 
-    fun setSnapHelper(snapHelper: SnapHelper) {
-        if (mSnapHelper != null) {
-            mSnapHelper?.attachToRecyclerView(null)
-        }
-        mSnapHelper = snapHelper
-        mSnapHelper?.attachToRecyclerView(this)
-    }
+    override fun getDataSet(): List<Any>? =
+            (adapter as? AndroidBindableRecyclerViewAdapter)?.dataSet
 }

@@ -1,0 +1,42 @@
+<layout>
+    
+    <data>
+        <variable
+            name="networkState"
+            type="com.blackbelt.bindings.paging.NetworkState"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        toVisibility="@{networkState.isLoaded()}"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_8">
+
+        <TextView
+            toVisibility="@{networkState.isError()}"
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/margin_4"
+            android:text="@string/oops_something_went_wrong" />
+
+        <ProgressBar
+            toVisibility="@{networkState.isLoading()}"
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <Button
+            toVisibility="@{networkState.isError()}"
+            android:id="@+id/retry_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/retry" />
+    </LinearLayout>
+</layout>

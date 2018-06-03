@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">githubusers</string>
+    <string name="retry">Retry</string>
+    <string name="oops_something_went_wrong">Oops something went wrong</string>
+    <string name="followers">Followers %s</string>
+    <string name="following">Following %s</string>
+</resources>

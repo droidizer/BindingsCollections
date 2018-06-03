@@ -1,1 +1,1 @@
-include ':app', ':bindings'
+include ':app', ':bindings', ':githubusers'
