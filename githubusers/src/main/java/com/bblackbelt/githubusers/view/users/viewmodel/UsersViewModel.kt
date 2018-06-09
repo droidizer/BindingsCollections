@@ -1,9 +1,6 @@
 package com.bblackbelt.githubusers.view.users.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.*
 import android.arch.paging.PagedList
 import android.content.res.Resources
 import android.graphics.Rect
@@ -31,9 +28,20 @@ class UsersViewModel(private val usersDataRepository: IUserDataRepository) : Bas
     val networkStateLayout = R.layout.network_state_item
 
     val itemClick = object : ItemClickListener {
-        override fun onItemClicked(view: View, item: Any) {
-            val listItem = item as? User ?: return
-            mMessageNotifier.value = MessageWrapper.withSnackBar(listItem.login)
+        override fun onItemClicked(view: View, item: Any?) {
+            item?.let {
+                when (it) {
+                    is NetworkState -> {
+                        if (it.isError()) {
+                            retry()
+                        }
+                    }
+                    is User -> {
+                        val listItem = item as? User ?: return
+                        mMessageNotifier.value = MessageWrapper.withSnackBar(listItem.login)
+                    }
+                }
+            }
         }
     }
 
@@ -61,7 +69,7 @@ class UsersViewModel(private val usersDataRepository: IUserDataRepository) : Bas
 
     val users = Transformations.switchMap(repoResult, { it.pagedList })!!
 
-    val networkState = Transformations.switchMap(repoResult, { it.networkState })!!
+    val networkState: LiveData<NetworkState> = Transformations.switchMap(repoResult, { it.networkState })!!
 
     class Factory @Inject constructor(val usersDataRepository: IUserDataRepository) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T = UsersViewModel(usersDataRepository) as T

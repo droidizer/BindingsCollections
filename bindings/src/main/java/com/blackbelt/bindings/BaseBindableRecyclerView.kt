@@ -47,6 +47,8 @@ abstract class BaseBindableRecyclerView(context: Context, attrs: AttributeSet?)
 
     abstract fun getDataSet(): List<Any>?
 
+    abstract fun getItemAtPosition(position: Int): Any?
+
     fun setSnapHelper(snapHelper: SnapHelper) {
         if (mSnapHelper != null) {
             mSnapHelper?.attachToRecyclerView(null)

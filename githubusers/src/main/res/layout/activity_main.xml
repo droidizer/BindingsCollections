@@ -21,6 +21,7 @@
             onItemClickListener="@{usersViewModel.itemClick}"
             itemDecoration="@{usersViewModel.itemDecoration}"
             networkState="@{usersViewModel.networkState}"
+            networkStateLayout="@{usersViewModel.networkStateLayout}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="LinearLayoutManager"

@@ -52,9 +52,8 @@ open class RecyclerViewGestureListener(bindableRecyclerView: BaseBindableRecycle
         }
 
         val listener = mRecyclerViewClickListener ?: return false
-        val dataSet: List<Any>? = recyclerView.getDataSet() ?: return false
-        val clickedObject: Any = dataSet?.get(position) ?: return false
-        listener.onItemClicked(childView, clickedObject)
+        val item = recyclerView.getItemAtPosition(position) ?: return false
+        listener.onItemClicked(childView, item)
         return true
     }
 

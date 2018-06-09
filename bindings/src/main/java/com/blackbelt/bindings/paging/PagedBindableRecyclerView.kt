@@ -12,6 +12,14 @@ class PagedBindableRecyclerView(context: Context, attrs: AttributeSet?)
     override fun getDataSet(): List<Any>? =
             (adapter as? PagedBindableRecyclerViewAdapter<*>)?.currentList
 
+    override fun getItemAtPosition(position: Int): Any? {
+        val list = getDataSet()
+        if (position >= list?.size ?: 0) {
+            return (adapter as? PagedBindableRecyclerViewAdapter<*>)?.getNetworkState()
+        }
+        return list?.get(position)
+    }
+
     fun <T : PagedItem> submitList(list: PagedList<T>?) {
         (adapter as? PagedBindableRecyclerViewAdapter<T>)?.submitList(list)
     }

@@ -21,12 +21,6 @@ fun <T : PagedItem> setItemViewBinder(recyclerView: RecyclerView, itemViewMapper
 }
 
 @BindingAdapter("networkState")
-fun setNetworkState(recyclerView: RecyclerView, networkState: NetworkState?) {
-    (recyclerView.adapter as? PagedBindableRecyclerViewAdapter<*>)
-            ?.setNetworkState(networkState)
-}
-
-@BindingAdapter("networkState")
 fun setNetworkState(recyclerView: RecyclerView, networkState: LiveData<NetworkState>?) {
     (recyclerView.adapter as? PagedBindableRecyclerViewAdapter<*>)
             ?.setNetworkState(networkState?.value)

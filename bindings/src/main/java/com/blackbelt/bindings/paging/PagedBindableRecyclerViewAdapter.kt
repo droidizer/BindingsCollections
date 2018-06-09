@@ -73,6 +73,8 @@ class PagedBindableRecyclerViewAdapter<T>(
                 }
     }
 
+    fun getNetworkState() = networkState
+
     fun setNetworkState(newNetworkState: NetworkState?) {
         val previousState = this.networkState
         val hadExtraRow = hasExtraRow()

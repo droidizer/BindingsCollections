@@ -6,6 +6,7 @@ import com.bblackbelt.githubusers.api.GitHubService
 import com.bblackbelt.githubusers.api.model.User
 import com.blackbelt.bindings.paging.NetworkState
 import io.reactivex.disposables.Disposables
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -17,13 +18,10 @@ class UsersPageKeyedDataSource @Inject constructor(private val gitHubService: Gi
 
     val networkState = MutableLiveData<NetworkState>()
 
-
     fun retry() {
         val prevFailedFunction = failedFunction
         failedFunction = null
-        prevFailedFunction?.let {
-            it.invoke()
-        }
+        prevFailedFunction?.invoke()
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, User>) {

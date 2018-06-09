@@ -83,4 +83,6 @@ class AndroidBindableRecyclerView(context: Context, attrs: AttributeSet?) : Base
 
     override fun getDataSet(): List<Any>? =
             (adapter as? AndroidBindableRecyclerViewAdapter)?.dataSet
+
+    override fun getItemAtPosition(position: Int): Any? = getDataSet()?.get(position)
 }
