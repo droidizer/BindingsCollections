@@ -17,9 +17,10 @@ class PagedBindableRecyclerView(context: Context, attrs: AttributeSet?)
         if (position >= list?.size ?: 0) {
             return (adapter as? PagedBindableRecyclerViewAdapter<*>)?.getNetworkState()
         }
-        return list?.get(position)
+        return list?.getOrNull(position)
     }
 
+    @SuppressWarnings("unchecked")
     fun <T : PagedItem> submitList(list: PagedList<T>?) {
         (adapter as? PagedBindableRecyclerViewAdapter<T>)?.submitList(list)
     }

@@ -26,6 +26,7 @@ class UsersPageKeyedDataSource @Inject constructor(private val gitHubService: Gi
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, User>) {
         networkState.postValue(NetworkState.LOADING)
+        //gitHubService.getUsers(0, params.requestedLoadSize).blockingFirst()
         mCurrentPageDisposable.dispose()
         mCurrentPageDisposable =
                 gitHubService.getUsers(0, params.requestedLoadSize)

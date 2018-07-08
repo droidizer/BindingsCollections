@@ -1,21 +1,20 @@
 package com.blackbelt.recyclerviewbindingsexample.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.databinding.ObservableField
 
 data class ItemViewModel(private val _name: String) : ViewModel() {
 
-    private val backedNname : MutableLiveData<String> = MutableLiveData()
+    private val backedNname: ObservableField<String> = ObservableField()
 
     init {
-        backedNname.value = _name
+        backedNname.set(_name)
     }
 
-    val name: LiveData<String>
-        get() = backedNname
+    val name: String?
+        get() = backedNname.get()
 
     fun setName(name: String) {
-        backedNname.value = name
+        backedNname.set(name)
     }
 }

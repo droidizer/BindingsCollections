@@ -12,7 +12,7 @@ import com.blackbelt.bindings.recyclerviewbindings.AndroidItemBinder
 
 class PagedBindableRecyclerViewAdapter<T>(
         private val itemBinder: Map<Class<*>, AndroidItemBinder>)
-    : PagedListAdapter<T, PagedBindableViewHolder>(PagedItemSourceDiffCallback<T>()) where T : PagedItem {
+    : PagedListAdapter<T, PagedBindableViewHolder>(PagedItemSourceDiffCallback<T>()) where T : Any {
 
     private var networkState: NetworkState? = null
 

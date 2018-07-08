@@ -5,6 +5,7 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.support.annotation.MainThread
 import com.bblackbelt.githubusers.api.model.User
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 
@@ -26,6 +27,7 @@ class UsersDataRepository @Inject constructor(private val factory: UsersDataSour
 
         return ViewWrapper(
                 LivePagedListBuilder(factory, config)
+                       // .setFetchExecutor { AndroidSchedulers.mainThread() }
                         .build(),
                 Transformations.switchMap(factory.sourceLiveData, {
                     it.networkState
