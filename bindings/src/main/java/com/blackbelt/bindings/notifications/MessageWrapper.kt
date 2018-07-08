@@ -71,7 +71,7 @@ class MessageWrapper private constructor() {
 
         const val LENGTH_LONG = Snackbar.LENGTH_LONG
 
-        fun withSnackBar(messageId: Int, @Duration duration: Int = LENGTH_SHORT): MessageWrapper {
+        fun withSnackBar(messageId: Int, @Duration duration: Int = Toast.LENGTH_SHORT): MessageWrapper {
             val messageWrapper = MessageWrapper()
             messageWrapper.messageId = messageId
             messageWrapper.type = Type.SNACKBAR
@@ -79,7 +79,7 @@ class MessageWrapper private constructor() {
             return messageWrapper
         }
 
-        fun withToast(messageId: Int, @Duration duration: Int = LENGTH_SHORT): MessageWrapper {
+        fun withToast(messageId: Int, @Duration duration: Int = Toast.LENGTH_SHORT): MessageWrapper {
             val messageWrapper = MessageWrapper()
             messageWrapper.messageId = messageId
             messageWrapper.type = Type.TOAST
@@ -87,7 +87,7 @@ class MessageWrapper private constructor() {
             return messageWrapper
         }
 
-        fun withSnackBar(message: String?, @Duration duration: Int = LENGTH_SHORT): MessageWrapper {
+        fun withSnackBar(message: String?, @Duration duration: Int = Toast.LENGTH_SHORT): MessageWrapper {
             val messageWrapper = MessageWrapper()
             messageWrapper.message = message
             messageWrapper.type = Type.SNACKBAR
@@ -95,7 +95,7 @@ class MessageWrapper private constructor() {
             return messageWrapper
         }
 
-        fun withToast(message: String, @Duration duration: Int = LENGTH_SHORT): MessageWrapper {
+        fun withToast(message: String, @Duration duration: Int = Toast.LENGTH_SHORT): MessageWrapper {
             val messageWrapper = MessageWrapper()
             messageWrapper.message = message
             messageWrapper.type = Type.TOAST

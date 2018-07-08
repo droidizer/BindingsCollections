@@ -1,20 +1,26 @@
+def artifactName = "bindings"
+
+ext.bintrayuser = System.getenv("BINTRAY_USER")
+ext.bintraypwd = System.getenv("BINTRAY_PWD")
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 27
-
-
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        versionCode maven.artifactVersionCode
+        versionName artifactName
     }
 
     buildTypes {
@@ -45,4 +51,81 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    android.libraryVariants.all { variant ->
+        if (variant.name == 'release') {
+            owner.classpath += variant.javaCompile.classpath
+        }
+    }
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        def deployPath = file(getProperty('aar.deployPath'))
+        repository(url: "file://${deployPath.absolutePath}")
+        pom.project {
+            groupId maven.artifactGroup
+            version maven.artifactVersion
+            artifactId artifactName
+        }
+    }
+}
+
+bintray {
+    user = bintrayuser
+    key = bintraypwd
+    dryRun = false
+
+    publications = ['Publication']
+    pkg {
+        repo = maven.repo
+        userOrg = maven.userOrg
+        websiteUrl = maven.siteUrl
+        vcsUrl = maven.gitUrl
+        licenses = maven.licenses
+        name = artifactName
+        publish = true
+
+        version {
+            name = maven.artifactVersion
+            desc = maven.artifactDesc
+            vcsTag = maven.artifactVersion
+            released = new Date()
+        }
+    }
+}
+
+publishing {
+    publications {
+        Publication(MavenPublication) {
+            artifact("$buildDir/outputs/aar/bindings-release.aar")
+            artifact sourcesJar
+            artifact javadocJar
+            groupId maven.artifactGroup
+            version maven.artifactVersion
+            artifactId artifactName
+        }
+    }
 }
